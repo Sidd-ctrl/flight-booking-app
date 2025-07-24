@@ -1,0 +1,10 @@
+<nav>
+  <a routerLink="/book">Book Flight</a> |
+  <a routerLink="/view">View Details</a>
+</nav>
+<div *ngIf="showGuidelines">
+  <h1>Welcome to Flight Booking System</h1>
+  <p>Quick Guidelines</p>
+  <button (click)="showGuidelines = false">Got it</button>
+</div>
+<router-outlet></router-outlet>
