@@ -19,15 +19,6 @@ Install Angular CLI globally:
 
 npm install -g @angular/cli
 
-Then follow these steps:
-
-git clone https://github.com/your-username/flight-booking-app.git  
-cd flight-booking-app  
-npm install  
-ng serve
-
-Now, open your browser and go to http://localhost:4200
-
 ## Purpose of This Project
 
 This project was made to understand:
@@ -38,23 +29,6 @@ This project was made to understand:
 - Creating and injecting services
 - Optimizing with lazy loading
 
-## Folder Structure
-
-flight-booking-app  
-src  
-└── app  
-    ├── login  
-    ├── products  
-    ├── cart  
-    ├── services  
-    ├── validators  
-    ├── app-routing.module.ts  
-    └── app.module.ts  
-assets  
-index.html  
-angular.json  
-package.json  
-README.md
 
 ## Contact
 
