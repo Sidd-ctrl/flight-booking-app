@@ -36,41 +36,47 @@ type Auth = any;
 @Component({
   selector: 'app-root',
   template: `
-    <div class="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
+    <div class="min-h-screen bg-gray-900 p-4 md:p-8 font-sans">
       <div class="max-w-6xl mx-auto">
 
-        <!-- Header -->
+        <!-- Header (Black/Purple/Yellow Theme) -->
         <header class="text-center mb-8">
-          <h1 class="text-4xl font-extrabold text-indigo-700">FlightBooker \@{{ userId() ? userId().slice(0, 8) : 'Loading...' }}</h1>
-          <p class="text-gray-500">Find, Book, and Fly. Seamless data handling with Firestore.</p>
+          <!-- Removed user ID from the main title -->
+          <h1 class="text-4xl font-extrabold text-yellow-400">FlightBooker</h1>
+          <p class="text-gray-400">
+            Find, Book, and Fly. Seamless data handling with Firestore.
+          </p>
+          <div class="text-xs mt-1 text-gray-500">
+            User ID: <span class="text-yellow-500 font-mono">{{ userId() ? userId().slice(0, 8) : 'Loading...' }}</span>
+          </div>
         </header>
 
         <!-- Search Form Card -->
-        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 transition-all duration-300 hover:shadow-2xl">
-          <h2 class="text-2xl font-semibold mb-4 text-gray-800">Search Flights</h2>
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8 transition-all duration-300 hover:shadow-xl shadow-purple-900/50">
+          <h2 class="text-2xl font-semibold mb-4 text-purple-400">Search Flights</h2>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- Origin -->
-            <input class="p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            <!-- Styling inputs for the dark theme -->
+            <input class="p-3 border border-purple-700 bg-gray-700 text-gray-100 rounded-lg focus:ring-yellow-400 focus:border-yellow-400 placeholder-gray-500"
                    type="text"
                    placeholder="Origin City (e.g., DEL)"
                    [value]="searchForm().origin"
                    (input)="updateSearch('origin', $event)"
                    required>
             <!-- Destination -->
-            <input class="p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            <input class="p-3 border border-purple-700 bg-gray-700 text-gray-100 rounded-lg focus:ring-yellow-400 focus:border-yellow-400 placeholder-gray-500"
                    type="text"
                    placeholder="Destination City (e.g., SFO)"
                    [value]="searchForm().destination"
                    (input)="updateSearch('destination', $event)"
                    required>
             <!-- Date -->
-            <input class="p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            <input class="p-3 border border-purple-700 bg-gray-700 text-gray-100 rounded-lg focus:ring-yellow-400 focus:border-yellow-400 placeholder-gray-500"
                    type="date"
                    [value]="searchForm().departureDate"
                    (input)="updateSearch('departureDate', $event)"
                    required>
             <!-- Travelers -->
-            <input class="p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+            <input class="p-3 border border-purple-700 bg-gray-700 text-gray-100 rounded-lg focus:ring-yellow-400 focus:border-yellow-400 placeholder-gray-500"
                    type="number"
                    placeholder="Travelers (1-9)"
                    [value]="searchForm().travelers"
@@ -79,7 +85,7 @@ type Auth = any;
                    required>
           </div>
           <button (click)="searchFlights()"
-                  class="mt-6 w-full py-3 px-6 bg-indigo-600 text-white font-bold rounded-xl shadow-md hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.01] active:scale-[0.99] disabled:bg-indigo-400"
+                  class="mt-6 w-full py-3 px-6 bg-purple-600 text-black font-bold rounded-xl shadow-md shadow-yellow-500/50 hover:bg-purple-500 transition duration-150 transform hover:scale-[1.01] active:scale-[0.99] disabled:bg-purple-400 disabled:shadow-none"
                   [disabled]="isSearching()">
             {{ isSearching() ? 'Searching...' : 'Find Flights' }}
           </button>
@@ -88,54 +94,54 @@ type Auth = any;
         <!-- System Messages -->
         @if (message()) {
           <div class="p-4 mb-6 text-sm rounded-lg"
-               [class]="message().type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+               [class]="message().type === 'success' ? 'bg-yellow-800 text-gray-900 font-bold' : 'bg-red-800 text-white'">
             {{ message().text }}
           </div>
         }
 
         <!-- Flight Results (Conditional Display) -->
         @if (searchResults().length > 0) {
-          <h2 class="text-2xl font-semibold mb-4 text-gray-800">Available Flights ({{ searchResults().length }})</h2>
+          <h2 class="text-2xl font-semibold mb-4 text-yellow-400">Available Flights ({{ searchResults().length }})</h2>
           <div class="space-y-4">
             @for (flight of searchResults(); track flight.id) {
-              <div class="bg-white p-5 rounded-xl shadow-lg border-l-4 border-indigo-500 flex flex-col md:flex-row justify-between items-start md:items-center">
+              <div class="bg-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-purple-500 flex flex-col md:flex-row justify-between items-start md:items-center">
                 
                 <div class="flex-grow mb-3 md:mb-0">
-                  <p class="text-lg font-bold text-gray-900">{{ flight.origin }} <span class="text-indigo-500 text-xl font-extrabold">→</span> {{ flight.destination }}</p>
-                  <p class="text-sm text-gray-600">
+                  <p class="text-lg font-bold text-gray-100">{{ flight.origin }} <span class="text-yellow-400 text-xl font-extrabold">→</span> {{ flight.destination }}</p>
+                  <p class="text-sm text-gray-400">
                     {{ flight.airline }} | Departs: {{ flight.departure }} | Seats Left: {{ flight.availableSeats }}
                   </p>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                  <p class="text-2xl font-extrabold text-green-600">\${{ flight.price }}</p>
+                  <p class="text-2xl font-extrabold text-yellow-400">\${{ flight.price }}</p>
                   
                   @if (flight.availableSeats > 0) {
                     <button (click)="openBookingModal(flight)"
-                            class="py-2 px-5 bg-indigo-500 text-white rounded-full font-semibold shadow-md hover:bg-indigo-600 transition duration-150 transform hover:scale-105 active:scale-95">
+                            class="py-2 px-5 bg-purple-600 text-black rounded-full font-semibold shadow-md hover:bg-purple-500 transition duration-150 transform hover:scale-105 active:scale-95">
                       Book Now
                     </button>
                   } @else {
-                    <span class="py-2 px-5 bg-red-500 text-white rounded-full font-semibold opacity-70">Sold Out</span>
+                    <span class="py-2 px-5 bg-gray-600 text-gray-400 rounded-full font-semibold opacity-70">Sold Out</span>
                   }
                 </div>
               </div>
             }
           </div>
         } @else if (!isSearching() && searchAttempted()) {
-           <div class="text-center p-8 bg-white rounded-xl shadow-lg">
-             <p class="text-lg text-gray-600">No flights found for your selected criteria. Try different dates or routes.</p>
+           <div class="text-center p-8 bg-gray-800 rounded-xl shadow-lg shadow-purple-900/50">
+             <p class="text-lg text-gray-400">No flights found for your selected criteria. Try different dates or routes.</p>
            </div>
         }
 
         <!-- Bookings List -->
-        <h2 class="text-2xl font-semibold mt-10 mb-4 text-gray-800">My Bookings ({{ userBookings().length }})</h2>
+        <h2 class="text-2xl font-semibold mt-10 mb-4 text-yellow-400">My Bookings ({{ userBookings().length }})</h2>
         @if (userBookings().length > 0) {
           <div class="space-y-4">
             @for (booking of userBookings(); track booking.id) {
-              <div class="bg-white p-5 rounded-xl shadow-lg border-l-4 border-green-500">
-                <p class="text-lg font-bold text-gray-900">{{ booking.flightDetails.origin }} → {{ booking.flightDetails.destination }}</p>
-                <p class="text-sm text-gray-600">Traveler: {{ booking.travelerName }} | Airline: {{ booking.flightDetails.airline }}</p>
+              <div class="bg-gray-800 p-5 rounded-xl shadow-lg border-l-4 border-yellow-500">
+                <p class="text-lg font-bold text-gray-100">{{ booking.flightDetails.origin }} → {{ booking.flightDetails.destination }}</p>
+                <p class="text-sm text-gray-400">Traveler: {{ booking.travelerName }} | Airline: {{ booking.flightDetails.airline }}</p>
                 <p class="text-xs text-gray-500 mt-1">
                   Booking ID: {{ booking.id.slice(0, 12) }}... | Booked on: {{ booking.bookingDate }}
                 </p>
@@ -143,22 +149,22 @@ type Auth = any;
             }
           </div>
         } @else {
-          <div class="text-center p-8 bg-white rounded-xl shadow-lg">
-             <p class="text-lg text-gray-600">You currently have no active bookings.</p>
+          <div class="text-center p-8 bg-gray-800 rounded-xl shadow-lg shadow-purple-900/50">
+             <p class="text-lg text-gray-400">You currently have no active bookings.</p>
            </div>
         }
 
         <!-- Booking Modal -->
         @if (selectedFlight()) {
-          <div class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-lg w-full">
-              <h3 class="text-2xl font-bold mb-4 text-indigo-700">Confirm Booking</h3>
-              <p class="mb-4 text-gray-700">Booking flight: 
-                <span class="font-semibold">{{ selectedFlight().origin }} → {{ selectedFlight().destination }}</span>
+          <div class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center p-4 z-50">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl shadow-yellow-500/50 max-w-lg w-full">
+              <h3 class="text-2xl font-bold mb-4 text-purple-400">Confirm Booking</h3>
+              <p class="mb-4 text-gray-300">Booking flight: 
+                <span class="font-semibold text-yellow-500">{{ selectedFlight().origin }} → {{ selectedFlight().destination }}</span>
                 (\${{ selectedFlight().price }} per ticket)
               </p>
 
-              <input class="w-full p-3 border border-gray-300 rounded-lg mb-4"
+              <input class="w-full p-3 border border-purple-700 bg-gray-700 text-gray-100 rounded-lg mb-4 placeholder-gray-500"
                      type="text"
                      placeholder="Traveler's Full Name"
                      [value]="travelerName()"
@@ -167,11 +173,11 @@ type Auth = any;
               
               <div class="flex justify-end space-x-3">
                 <button (click)="selectedFlight.set(null)"
-                        class="py-2 px-4 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
+                        class="py-2 px-4 bg-gray-600 text-gray-100 rounded-lg hover:bg-gray-500 transition">
                   Cancel
                 </button>
                 <button (click)="handleBooking()"
-                        class="py-2 px-4 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition transform active:scale-95"
+                        class="py-2 px-4 bg-yellow-400 text-gray-900 rounded-lg font-semibold hover:bg-yellow-300 transition transform active:scale-95"
                         [disabled]="isBooking() || travelerName().length < 3">
                   {{ isBooking() ? 'Processing...' : 'Complete Booking' }}
                 </button>
@@ -289,6 +295,7 @@ export class App {
       if (!this.db || !this.userId()) return;
       const { collection, getDocs, setDoc, doc } = this.firebaseFunctions;
 
+      // Note: Using 'default-app-id' as a placeholder for __app_id when generating collection paths.
       const flightsCollection = collection(this.db, `/artifacts/default-app-id/public/data/flights`);
       
       try {
